@@ -20,8 +20,8 @@ import {
 // --- INTERFACES & TYPES ---
 interface StepData {
     id: string;
-    instruction: string;
-    details: string;
+    instruction: React.ReactNode;
+    details: React.ReactNode;
 }
 
 interface StepsConfig {
@@ -57,7 +57,7 @@ const steps: StepsConfig = {
         {
             id: 'success',
             instruction: "¡Listo! Ya puedes destacar.",
-            details: "La estrella ⭐ ha regresado."
+            details: <>La estrella ⭐ <strong className="font-bold">DESTACAR</strong> ha regresado.</>
         }
     ],
     desktop: [
@@ -79,7 +79,7 @@ const steps: StepsConfig = {
         {
             id: 'success',
             instruction: "¡Configuración guardada!",
-            details: "La estrella es visible nuevamente."
+            details: <>La estrella ⭐ <strong className="font-bold">DESTACAR</strong> es visible nuevamente.</>
         }
     ]
 };
@@ -132,10 +132,10 @@ export default function WhatsAppTutorial() {
             >
                 {children}
                 {active && showHighlight && (
-                    <span className="absolute -top-3 -right-3 z-30 flex h-8 w-8 pointer-events-none">
+                    <span className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-3 z-50 flex h-10 w-10 pointer-events-none">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-8 w-8 bg-green-600 justify-center items-center text-white text-sm font-bold shadow-sm">
-                            👆
+                        <span className="relative inline-flex rounded-full h-10 w-10 bg-green-600 justify-center items-center text-white shadow-xl ring-2 ring-white">
+                            <span className="text-xl filter drop-shadow-md">👆</span>
                         </span>
                     </span>
                 )}
@@ -156,11 +156,13 @@ export default function WhatsAppTutorial() {
                         <Star size={48} fill="white" className="drop-shadow-md animate-pulse" />
                     </div>
 
-                    <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-4">Recupera la Estrella</h1>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2">Administradores de Grupo</h1>
+                    <h2 className="text-xl sm:text-2xl font-bold text-green-600 mb-6">Cómo activar "La estrella ⭐ DESTACAR"</h2>
+
                     <p className="text-slate-600 mb-8 text-base sm:text-lg leading-relaxed">
-                        Si los <strong>Mensajes temporales</strong> están activos, la opción de destacar desaparece.
+                        Si los <strong>Mensajes temporales</strong> están activos en el grupo que administras, la opción de <strong>La estrella ⭐ DESTACAR</strong> desaparece.
                         <br /><br />
-                        Selecciona tu dispositivo para aprender a desactivarlos:
+                        Selecciona tu dispositivo para aprender a desactivarlos y recuperarla:
                     </p>
 
                     <div className="space-y-4">
@@ -202,7 +204,7 @@ export default function WhatsAppTutorial() {
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">¡Solucionado!</h2>
             <p className="text-slate-600 mb-8 max-w-sm text-lg">
-                Al desactivar los mensajes temporales, la estrella ⭐ vuelve a estar disponible para todos.
+                Al desactivar los mensajes temporales, la estrella ⭐ <strong className="font-bold">DESTACAR</strong> vuelve a estar disponible para todos.
             </p>
 
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 w-full mb-8 shadow-inner">
@@ -234,19 +236,26 @@ export default function WhatsAppTutorial() {
 
     // --- MOBILE MOCKUP SCREENS ---
 
+    // --- UI HELPERS ---
+
     const MobileMockup = () => {
         return (
-            <div className="flex justify-center items-center h-full w-full bg-slate-200 p-2 sm:p-4 font-sans overflow-hidden">
-                {/* Responsive Mobile Container */}
-                <div className="w-full max-w-[340px] h-full max-h-[750px] sm:h-[90vh] bg-white rounded-[24px] sm:rounded-[36px] shadow-2xl overflow-hidden border-4 sm:border-8 border-slate-800 relative flex flex-col shrink-0 ring-4 ring-black/5">
+            <div className="flex justify-center items-center h-full w-full bg-slate-200 p-4 font-sans overflow-hidden">
+                {/* Responsive Mobile Container: Uses h-full to fill available flex space without overflowing */}
+                <div className="w-full max-w-[360px] h-full max-h-full bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-[8px] border-slate-800 relative flex flex-col shrink-0 ring-4 ring-black/5">
 
                     {/* Status Bar Mock */}
-                    <div className="bg-[#075E54] h-7 w-full flex justify-between items-center px-4 flex-shrink-0 z-30">
-                        <div className="flex gap-1">
+                    <div className="bg-[#075E54] h-8 w-full flex justify-between items-center px-6 flex-shrink-0 z-30 pt-2">
+                        {/* Dynamic Notch/Island Mock */}
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-xl"></div>
+                        <div className="flex gap-1.5 pt-1">
                             <div className="w-1.5 h-1.5 bg-white/70 rounded-full"></div>
                             <div className="w-1.5 h-1.5 bg-white/70 rounded-full"></div>
                         </div>
-                        <div className="w-12 h-3 bg-black/20 rounded-full"></div>
+                        {/* Signal/Battery Mock */}
+                        <div className="flex gap-1 pt-1 opacity-80">
+                            <div className="w-3 h-3 border border-white rounded-sm"></div>
+                        </div>
                     </div>
 
                     {/* Screen Content Switcher */}
@@ -346,7 +355,7 @@ export default function WhatsAppTutorial() {
                                 <h2 className="font-semibold text-slate-800 text-lg">Duración</h2>
                             </div>
 
-                            <div className="p-6 overflow-y-auto">
+                            <div className="p-6 overflow-y-auto pb-48">
                                 <div className="flex justify-center mb-6">
                                     <div className="bg-slate-100 p-4 rounded-full">
                                         <Clock size={48} className="text-slate-400" />
@@ -378,7 +387,7 @@ export default function WhatsAppTutorial() {
                     {step === 3 && <SuccessMessage />}
 
                     {/* Home Indicator */}
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-36 h-1.5 bg-slate-800 rounded-full opacity-20"></div>
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-600 rounded-full opacity-40 z-50"></div>
                 </div>
             </div>
         );
@@ -388,12 +397,12 @@ export default function WhatsAppTutorial() {
 
     const DesktopMockup = () => {
         return (
-            <div className="flex justify-center items-center h-full bg-slate-200 p-2 sm:p-4 md:p-8 font-sans overflow-hidden">
-                {/* Responsive Desktop Container */}
-                <div className="w-full max-w-6xl h-full max-h-[850px] sm:h-[85vh] bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-300 flex flex-col md:flex-row relative">
+            <div className="flex justify-center items-center h-full w-full bg-slate-200 p-2 sm:p-4 font-sans overflow-hidden">
+                {/* Responsive Desktop Container: Uses h-full to fill available flex space without overflowing */}
+                <div className="w-full max-w-[1100px] h-full max-h-full bg-white rounded-lg shadow-xl overflow-hidden border border-slate-300 flex relative">
 
-                    {/* Left Sidebar (Contacts) - Hidden on very small screens in mockup to focus on chat */}
-                    <div className="hidden md:flex w-[30%] lg:w-[350px] border-r border-slate-200 bg-white flex-col flex-shrink-0">
+                    {/* Left Sidebar (Contacts) */}
+                    <div className="hidden md:flex w-[35%] lg:w-[320px] border-r border-slate-200 bg-white flex-col flex-shrink-0">
                         <div className="bg-[#f0f2f5] h-16 flex items-center px-4 justify-between border-b border-slate-200 flex-shrink-0">
                             <div className="w-10 h-10 bg-slate-300 rounded-full"></div>
                             <div className="flex gap-5 text-slate-500">
@@ -475,9 +484,9 @@ export default function WhatsAppTutorial() {
                             <div className="text-slate-500"><span className="text-xl">🎤</span></div>
                         </div>
 
-                        {/* Sidebar Overlay for Settings (Steps 1 & 2) - Responsive width */}
+                        {/* Sidebar Overlay for Settings (Steps 1 & 2) - Overlay logic for mobile/desktop split */}
                         {(step === 1 || step === 2 || step === 3) && (
-                            <div className="absolute right-0 top-0 bottom-0 w-full sm:w-[400px] bg-white border-l border-slate-200 z-20 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+                            <div className="absolute right-0 top-0 bottom-0 w-full sm:w-[400px] h-full bg-white border-l border-slate-200 z-20 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
                                 {step === 3 ? (
                                     <SuccessMessage />
                                 ) : (
@@ -580,9 +589,9 @@ export default function WhatsAppTutorial() {
     const currentInstructions = mode === 'mobile' ? steps.mobile[step] : (mode === 'desktop' ? steps.desktop[step] : undefined);
 
     return (
-        <div className="flex flex-col h-screen bg-slate-50 text-slate-800 font-sans">
+        <div className="flex flex-col h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden">
             {/* Top Navigation Bar */}
-            <div className="bg-[#111b21] text-white px-4 py-3 shadow-md flex justify-between items-center z-50 flex-shrink-0">
+            <div className="bg-[#111b21] text-white px-4 py-3 shadow-md flex justify-between items-center z-50 flex-shrink-0 relative">
                 <div className="flex items-center gap-3">
                     <div className="bg-green-500 p-1.5 rounded-lg shadow-lg shadow-green-900/50">
                         <Star size={18} fill="white" className="text-white" />
@@ -604,9 +613,9 @@ export default function WhatsAppTutorial() {
                 )}
             </div>
 
-            {/* Instruction Banner - Dynamic positioning with navigation */}
+            {/* Instruction Banner - Sticky/Dynamic */}
             {mode !== 'intro' && step < 3 && (
-                <div className="bg-[#00a884] text-white px-4 py-3 text-center shadow-lg animate-in slide-in-from-top duration-300 z-40 flex-shrink-0 flex items-center justify-between">
+                <div className="bg-[#00a884] text-white px-4 py-3 text-center shadow-lg animate-in slide-in-from-top duration-300 z-40 flex-shrink-0 flex items-center justify-between relative">
                     {/* Back Button */}
                     <button
                         onClick={handlePrevStep}
@@ -618,17 +627,16 @@ export default function WhatsAppTutorial() {
                     </button>
 
                     <div className="flex-1 px-2">
-                        <p className="font-bold text-base sm:text-lg drop-shadow-sm">{currentInstructions?.instruction}</p>
-                        <p className="text-green-50 text-xs sm:text-sm mt-0.5 opacity-90">{currentInstructions?.details}</p>
+                        <p className="font-bold text-base sm:text-lg drop-shadow-sm leading-tight">{currentInstructions?.instruction}</p>
+                        <p className="text-green-50 text-xs sm:text-sm mt-0.5 opacity-90 leading-tight">{currentInstructions?.details}</p>
                     </div>
 
-                    {/* Spacer to balance the back button */}
                     <div className="w-10"></div>
                 </div>
             )}
 
             {/* Main Content Area */}
-            <div className="flex-1 overflow-hidden relative bg-slate-200">
+            <div className="flex-1 overflow-hidden relative bg-slate-200 w-full h-full flex flex-col">
                 {mode === 'intro' && <IntroScreen />}
                 {mode === 'mobile' && <MobileMockup />}
                 {mode === 'desktop' && <DesktopMockup />}
