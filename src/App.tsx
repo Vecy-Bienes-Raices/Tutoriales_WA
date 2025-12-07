@@ -635,11 +635,25 @@ export default function WhatsAppTutorial() {
                 </div>
             )}
 
-            {/* Main Content Area */}
             <div className="flex-1 overflow-hidden relative bg-slate-200 w-full h-full flex flex-col">
                 {mode === 'intro' && <IntroScreen />}
                 {mode === 'mobile' && <MobileMockup />}
                 {mode === 'desktop' && <DesktopMockup />}
+            </div>
+
+            {/* Footer - Vecy Developers */}
+            <div className="bg-[#111b21] py-3 text-center text-slate-500 text-[10px] sm:text-xs border-t border-slate-800 flex-shrink-0">
+                <p>
+                    © 2025 Creado por{' '}
+                    <a
+                        href="https://wa.me/573166569719?text=Hola%20Vecy%20Developers!%20%F0%9F%91%8B%20Me%20interesa%20contratarlos%20para%20un%20proyecto%20web%20o%20app%20%F0%9F%9A%80"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-slate-400 hover:text-green-500 transition-colors"
+                    >
+                        Vecy Developers
+                    </a>
+                </p>
             </div>
         </div>
     );
