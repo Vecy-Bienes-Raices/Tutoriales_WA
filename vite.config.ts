@@ -7,4 +7,13 @@ export default defineConfig({
     server: {
         port: 9000,
     },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['react', 'react-dom'],
+                },
+            },
+        },
+    },
 })
